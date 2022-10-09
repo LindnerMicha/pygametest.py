@@ -7,17 +7,17 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))       # () - einfügen -> darin Bildfläche erstellen
 
 #Titel & Icon
-pygame.display.set_caption("Pussyinvador")          # Titel des Fensters festlegen
+pygame.display.set_caption("Spaceinvador")          # Titel des Fensters festlegen
 icon = pygame.image.load("ufo.png")                 # Icon für das fenster festlegen
 pygame.display.set_icon(icon)
 
 #Player
-playerImg = pygame.image.load("penis.png")
+playerImg = pygame.image.load("raumschiff.png")
 playerX = 370
 playerY = 480
 
 #Endboss
-endbossImg = pygame.image.load("vagina.png")
+endbossImg = pygame.image.load("monster.png")
 endbossX = 40
 endbossY = 370
 
