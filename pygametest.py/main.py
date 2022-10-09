@@ -3,40 +3,37 @@ import pygame
 pygame.init()
 
 #Bildfläche definieren
-screen = pygame.display.set_mode((800, 600))       # () - einfügen -> darin Bildfläche erstellen
-background = pygame.image.load("graphics/galaxie.jpg")
+screen = pygame.display.set_mode((800, 600))                                    # () - einfügen -> darin Bildfläche erstellen
+background = pygame.image.load("graphics/galaxie.jpg").convert_alpha()          # .convert_alpha() -> besserer Performance
 score_tile = pygame.Surface((800,50))
 
 #Titel & Icon
-pygame.display.set_caption("Spaceinvador")          # Titel des Fensters festlegen
-icon = pygame.image.load("graphics/ufo.png")                 # Icon für das fenster festlegen
+pygame.display.set_caption("Spaceinvador")                                      # Titel des Fensters festlegen
+icon = pygame.image.load("graphics/ufo.png").convert_alpha()                    # Icon für das fenster festlegen
 pygame.display.set_icon(icon)
 
-#Clock                                              # Clock für die Framerate festlegen
+#Clock                                                                          # Clock für die Framerate festlegen
 clock = pygame.time.Clock()
 
 # Fonts
-test_font = pygame.font.Font("fonts/PixeloidSans.ttf", 30)                 # Eine Font erstellen -> (Font, größe)
+test_font = pygame.font.Font("fonts/PixeloidSans.ttf", 30)                      # Eine Font erstellen -> (Font, größe)
 
 #Score
 score_val = 0
-score = test_font.render(f"Score:  {score_val}", False, "White")           # rendern von Schriften -> ("Was möchte ich rendern", Antialiasing(Kantensmoothnes), Color)
+score = test_font.render(f"Score:  {score_val}", False, "White")                # rendern von Schriften -> ("Was möchte ich rendern", Antialiasing(Kantensmoothnes), Color)
 
 #Player
-playerImg = pygame.image.load("graphics/raumschiff.png")
+playerImg = pygame.image.load("graphics/raumschiff.png").convert_alpha()
 playerX = 370
 playerY = 480
 
 #Endboss
-endbossImg = pygame.image.load("graphics/monster.png")
+endbossImg = pygame.image.load("graphics/monster.png").convert_alpha()
 endbossX = 40
 endbossY = 370
 
-left_an = False
-righ_an = False
-
 def player(playerImg,playerX,playerY):
-    screen.blit(playerImg, (playerX, playerY))                             # .blit = synonüm für drawing
+    screen.blit(playerImg, (playerX, playerY))                                  # .blit = synonüm für drawing
 def endboss(endbossImg,endbossY, endbossX):
     screen.blit(endbossImg, (endbossY, endbossX))
 
@@ -46,14 +43,13 @@ while running:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False                                                 # fenster schließen
+            running = False                                                     # fenster schließen
 
-    #screen.fill((255,255,255))                                             # Hintergrundfarbe festlegen
-    screen.blit(background,(0,0))                                           # Background textur draw
+    #screen.fill((255,255,255))                                                 # Hintergrundfarbe festlegen
+    screen.blit(background,(0,0))                                               # Background textur draw
     screen.blit(score_tile, (0,550))                                        # Score Tile draw
 
     #Movement Endboss
-
 
     endboss(endbossImg,endbossY, endbossX)                                  # Endboss draw
 
