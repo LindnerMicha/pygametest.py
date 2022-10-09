@@ -38,11 +38,12 @@ while running:
         if event.type == pygame.QUIT:
             running = False                                                 # fenster schließen
 
-    #screen.fill((255,255,255))                                              # Hintergrundfarbe festlegen
-    screen.blit(background,(0,0))
-    screen.blit(score_tile, (0,550))
+    #screen.fill((255,255,255))                                             # Hintergrundfarbe festlegen
+    screen.blit(background,(0,0))                                           # Background textur draw
+    screen.blit(score_tile, (0,550))                                        # Score Tile draw
 
-    endboss(endbossImg,endbossY, endbossX)
+    endboss(endbossImg,endbossY, endbossX)                                  # Endboss draw
     player(playerImg,playerX,playerY)                                       # Player draw
+
     pygame.display.update()                                                 # Bildschirm mit änderungen updaten -> nach jeden Gameloop durchlauf
     clock.tick(60)                                                          # legt die maximale Framerate auf 60 FPS fest -> while loop wird max 60 mal pro sekunde wiederholt
