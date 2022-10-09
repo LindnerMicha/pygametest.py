@@ -7,7 +7,7 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))       # () - einfügen -> darin Bildfläche erstellen
 
 #Titel & Icon
-pygame.display.set_caption("Spaceinvador")          # Titel des Fensters festlegen
+pygame.display.set_caption("Pussyinvador")          # Titel des Fensters festlegen
 icon = pygame.image.load("ufo.png")                 # Icon für das fenster festlegen
 pygame.display.set_icon(icon)
 
