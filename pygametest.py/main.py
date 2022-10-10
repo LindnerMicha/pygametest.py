@@ -50,19 +50,18 @@ while running:
 
     #screen.fill((255,255,255))                                                 # Hintergrundfarbe festlegen
     screen.blit(background,(0,0))                                               # Background textur draw
-    screen.blit(score_tile, (0,550))                                        # Score Tile draw
+    screen.blit(score_tile, (0,550))                                            # Score Tile draw
 
     #Movement Endboss
     endbossY += boss_speed
-
     if endbossY < 30:
         boss_speed *= -1
 
     if endbossY > 700:
         boss_speed *= -1
-
     endboss(endbossImg,endbossY, endbossX)                                  # Endboss draw
 
+    #Player Movement
 
     player(playerImg,playerX,playerY)                                       # Player draw
 
