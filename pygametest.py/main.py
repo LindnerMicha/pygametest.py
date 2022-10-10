@@ -32,6 +32,8 @@ endbossImg = pygame.image.load("graphics/monster.png").convert_alpha()
 endbossX = 40
 endbossY = 370
 
+boss_speed = 2
+
 def player(playerImg,playerX,playerY):
     screen.blit(playerImg, (playerX, playerY))                                  # .blit = synonüm für drawing
 def endboss(endbossImg,endbossY, endbossX):
@@ -51,10 +53,14 @@ while running:
     screen.blit(score_tile, (0,550))                                        # Score Tile draw
 
     #Movement Endboss
-    if endbossY < 700 and endbossY < 30:
-        endbossY += 1
-    elif endbossY <= and endbossY > 30:
-        endbossY -= 1
+    endbossY += boss_speed
+
+    if endbossY < 30:
+        boss_speed *= -1
+
+    if endbossY > 700:
+        boss_speed *= -1
+
     endboss(endbossImg,endbossY, endbossX)                                  # Endboss draw
 
 
