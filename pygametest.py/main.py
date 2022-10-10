@@ -53,7 +53,7 @@ while running:
     #Movement Endboss
     if endbossY < 700 and endbossY < 30:
         endbossY += 1
-    elif endbossY <= and endbossY > 30
+    elif endbossY <= and endbossY > 30:
         endbossY -= 1
     endboss(endbossImg,endbossY, endbossX)                                  # Endboss draw
 
