@@ -37,6 +37,7 @@ def player(playerImg,playerX,playerY):
 def endboss(endbossImg,endbossY, endbossX):
     screen.blit(endbossImg, (endbossY, endbossX))
 
+
 #gameloop
 running = True
 while running:
@@ -50,7 +51,10 @@ while running:
     screen.blit(score_tile, (0,550))                                        # Score Tile draw
 
     #Movement Endboss
-
+    if endbossY < 700 and endbossY < 30:
+        endbossY += 1
+    elif endbossY <= and endbossY > 30
+        endbossY -= 1
     endboss(endbossImg,endbossY, endbossX)                                  # Endboss draw
 
 
