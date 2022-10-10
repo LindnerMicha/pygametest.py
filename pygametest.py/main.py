@@ -1,3 +1,5 @@
+# https://stackoverflow.com/questions/16044229/how-to-get-keyboard-input-in-pygame
+
 import pygame
 # !! Pygame initalisieren, muss immer gemacht werden
 pygame.init()
@@ -34,11 +36,17 @@ endbossY = 370
 
 boss_speed = 2
 
+
+
+# Bullet init / surface
+kugel = pygame.image.load("graphics/kugel.png")
+
 def player(playerImg,playerX,playerY):
     screen.blit(playerImg, (playerX, playerY))                                  # .blit = synonüm für drawing
 def endboss(endbossImg,endbossY, endbossX):
     screen.blit(endbossImg, (endbossY, endbossX))
-
+def bullet_fly(bullet_x, bullet_y):
+    screen.blit("graphics/kugel.png", (bullet_x, bullet_y))
 
 #gameloop
 running = True
@@ -62,6 +70,36 @@ while running:
     endboss(endbossImg,endbossY, endbossX)                                  # Endboss draw
 
     #Player Movement
+    keys = pygame.key.get_pressed()
+    playerX += (keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]) * 5
+    playerY += (keys[pygame.K_DOWN] - keys[pygame.K_UP]) * 5
+    if playerY <= 200:
+        playerY = 200
+    elif playerY >= 480:
+        playerY = 480
+
+    if playerX <= 10:
+        playerX = 10
+    elif playerX >= 730:
+        playerX = 730
+
+    #Player Shooting   ->   https://www.python-lernen.de/invaders-game-python-gegner-abschiessen.htm
+    kugelstatus = False  # -> vieleicht hoch in die init
+    kugelX = playerX
+    kugelY = playerY
+    kugelXbewegung = 12
+
+
+    if pygame.key.get_pressed() == pygame.K_SPACE:
+        print("Kugel abfeuern")
+        kugelstatus = True
+        bullet_x = playerX
+        bullet_y = playerY + 50
+
+    if kugelstatus == True:
+        bullet_fly(bullet_x, bullet_y)
+
+
 
     player(playerImg,playerX,playerY)                                       # Player draw
 
