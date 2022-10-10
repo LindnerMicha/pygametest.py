@@ -85,7 +85,7 @@ while running:
     elif playerX >= 730:
         playerX = 730
 
-    #Player Shooting   ->   https://www.python-lernen.de/invaders-game-python-gegner-abschiessen.htm
+    #Player Shooting   ->   https://www.python-lernen.de/invaders-game-python-gegner-abschiessen.htm / https://stackoverflow.com/questions/16044229/how-to-get-keyboard-input-in-pygame
     kugelstatus = False  # -> vieleicht hoch in die init
     kugelX = playerX
     kugelY = playerY
