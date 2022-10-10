@@ -34,19 +34,21 @@ endbossImg = pygame.image.load("graphics/monster.png").convert_alpha()
 endbossX = 40
 endbossY = 370
 
+# Bullet init / surface
+bullet_img = pygame.image.load("graphics/kugel.png")
+
 boss_speed = 2
 
 
 
-# Bullet init / surface
-kugel = pygame.image.load("graphics/kugel.png")
+
 
 def player(playerImg,playerX,playerY):
     screen.blit(playerImg, (playerX, playerY))                                  # .blit = synonüm für drawing
 def endboss(endbossImg,endbossY, endbossX):
     screen.blit(endbossImg, (endbossY, endbossX))
 def bullet_fly(bullet_x, bullet_y):
-    screen.blit("graphics/kugel.png", (bullet_x, bullet_y))
+    screen.blit(bullet_img , (bullet_x, bullet_y))
 
 #gameloop
 running = True
@@ -89,16 +91,16 @@ while running:
     kugelY = playerY
     kugelXbewegung = 12
 
-
-    if pygame.key.get_pressed() == pygame.K_SPACE:
-        print("Kugel abfeuern")
-        kugelstatus = True
-        bullet_x = playerX
-        bullet_y = playerY + 50
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                print("Kugel abfeuern")
+                kugelstatus = True
+                bullet_x = playerX
+                bullet_y = playerY + 50
 
     if kugelstatus == True:
         bullet_fly(bullet_x, bullet_y)
-
 
 
     player(playerImg,playerX,playerY)                                       # Player draw
