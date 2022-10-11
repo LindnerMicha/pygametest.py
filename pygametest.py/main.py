@@ -35,14 +35,6 @@ playerImg = pygame.image.load("graphics/raumschiff.png").convert_alpha()
 playerX = 370
 playerY = 480
 
-#Leben
-leben_val = 8
-
-#Endboss
-endbossImg = pygame.image.load("graphics/monster.png").convert_alpha()
-endbossX = 40
-endbossY = 370
-
 # Bullet init / surface
 kugel = pygame.image.load("graphics/kugel.png").convert_alpha()
 kugelX = 0
@@ -51,9 +43,25 @@ kugelYbewegung = 6
 kugelstatus = False
 
 #Explosion Bullet
-explosion = pygame.image.load("graphics/explosion.png").convert_alpha()
+explosionImg = pygame.image.load("graphics/explosion.png").convert_alpha()
 exploX = 0
 exploY = 0
+
+#Leben
+leben_val = 8
+
+#Endboss
+endbossImg = pygame.image.load("graphics/monster.png").convert_alpha()
+endbossX = 40
+endbossY = 370
+
+# Meteor
+meteor = pygame.image.load("graphics/meteorit_gross.png").convert_alpha()
+meteorX = 0
+meteorY = 0
+meteorYbewegung = 6
+meteorstatus = False
+
 
 boss_speed = 2
 
@@ -64,6 +72,8 @@ def endboss(endbossImg, endbossY, endbossX):
     screen.blit(endbossImg, (endbossY, endbossX))
 def kugelfliegt(y, x):
     screen.blit(kugel, (y, x))
+def meteorfliegt(y, x):
+    screen.blit(meteor, (y, x))
 def kollisionskontrolle(kugelX, kugelY, endbossX, endbossY):
     if (kugelX >= endbossY-20 and kugelX <= endbossY + 40) and (kugelY >= endbossX-40 and kugelY <= endbossX + 30):
         return True
@@ -128,8 +138,8 @@ while running:
         if event.type == pygame.QUIT:
             running = False                                                     # fenster schließen
 
-    #screen.fill((255,255,255))                                                 # Hintergrundfarbe festlegen
-    screen.blit(background, (0, 0))                                               # Background textur draw
+    #screen.fill((255,255,255))                                                  # Hintergrundfarbe festlegen
+    screen.blit(background, (0, 0))                                              # Background textur draw
     screen.blit(score_tile, (0, 550))                                            # Score Tile draw
 
     #Movement Endboss
@@ -177,6 +187,7 @@ while running:
     # Score
     if kollisionskontrolle(kugelX, kugelY, endbossX, endbossY) and kugelstatus == True:
         score_val += 1
+        screen.blit(explosionImg, (kugelX, kugelY))
         kugelstatus = False
 
     # Bossgeschwindigkeit erhöhen

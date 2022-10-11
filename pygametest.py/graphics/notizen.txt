@@ -11,3 +11,21 @@ leben = [
 
 
 pygame.draw.rect(leben[0])
+
+
+
+
+    if -Timer is true- :                                     # auf druck der Leertaste warten
+        if not meteorstatus:                                 # wenn kugel nichtmehr sichtbar ist wird der nächste Schuss freigegeben
+            meteorstatus = True
+            meteorX = endbossX                               # kugel die Schiffkoordinaten geben
+            meteorY = endbossY + 50
+
+
+    if meteorstatus:
+        meteorY -= meteorYbewegung
+        if meteorY <= 850:                                   # 50 mehr out of screen
+            meteorstatus = False
+
+    if meteorstatus:
+        meteorfliegt(kugelX, kugelY)
