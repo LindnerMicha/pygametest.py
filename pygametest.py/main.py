@@ -19,7 +19,6 @@ pygame.display.set_icon(icon)
 clock = pygame.time.Clock()
 fps = 60
 
-
 # Fonts
 test_font = pygame.font.Font("fonts/PixeloidSans.ttf", 30)                      # Eine Font erstellen -> (Font, größe)
 
@@ -47,7 +46,6 @@ kugelstatus = False
 boss_speed = 2
 
 
-
 def player(playerImg, playerX, playerY):
     screen.blit(playerImg, (playerX, playerY))                                  # .blit = synonüm für drawing
 def endboss(endbossImg, endbossY, endbossX):
@@ -55,7 +53,7 @@ def endboss(endbossImg, endbossY, endbossX):
 def kugelfliegt(y, x):
     screen.blit(kugel, (y, x))
 def kollisionskontrolle(kugelX, kugelY, endbossX, endbossY):
-    if (kugelX >= endbossY-30 and kugelX <= endbossY + 30) and (kugelY >= endbossX-30 and kugelY <= endbossX + 30):
+    if (kugelX >= endbossY-20 and kugelX <= endbossY + 40) and (kugelY >= endbossX-40 and kugelY <= endbossX + 30):
         return True
     else:
         return False
@@ -124,7 +122,6 @@ while running:
         score_val += 1
         kugelstatus = False
 
-    print(score_val)
     kollisionskontrolle(kugelX, kugelY, endbossX, endbossY)
     score = test_font.render(f"Score:  {score_val}", False, "White")        # Update des scores
     screen.blit(score, (20, 555))
