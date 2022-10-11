@@ -43,6 +43,11 @@ kugelY = 0
 kugelYbewegung = 6
 kugelstatus = False
 
+#Explosion Bullet
+explosion = pygame.image.load("graphics/explosion.png")
+exploX = 0
+exploY = 0
+
 boss_speed = 2
 
 
@@ -95,10 +100,6 @@ while running:
         playerX = 730
 
     #Player Shooting   ->   https://www.python-lernen.de/invaders-game-python-gegner-abschiessen.htm / https://stackoverflow.com/questions/16044229/how-to-get-keyboard-input-in-pygame
-
-
-    # Spielfeld/figuren zeichnen
-
     player(playerImg, playerX, playerY)
 
     keys = pygame.key.get_pressed()
