@@ -119,4 +119,4 @@ while running:
     screen.blit(score, (20, 555))
 
     pygame.display.update()                                                 # Bildschirm mit änderungen updaten -> nach jeden Gameloop durchlauf
-    clock.tick(fps)                                                          # legt die maximale Framerate auf 60 FPS fest -> while loop wird max 60 mal pro sekunde wiederholt
+    clock.tick(fps)                                                         # legt die maximale Framerate auf 60 FPS fest -> while loop wird max 60 mal pro sekunde wiederholt
