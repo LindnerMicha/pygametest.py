@@ -8,7 +8,7 @@ pygame.init()
 #Bildfläche definieren
 screen = pygame.display.set_mode((800, 600))                                    # () - einfügen -> darin Bildfläche erstellen
 background = pygame.image.load("graphics/galaxie.jpg").convert_alpha()          # .convert_alpha() -> besserer Performance
-score_tile = pygame.Surface((800, 50))
+
 
 #Titel & Icon
 pygame.display.set_caption("Spaceinvador")                                      # Titel des Fensters festlegen
@@ -23,13 +23,20 @@ fps = 60
 test_font = pygame.font.Font("fonts/PixeloidSans.ttf", 30)                      # Eine Font erstellen -> (Font, größe)
 
 #Score
+score_tile = pygame.Surface((800, 50))
 score_val = 0
 score = test_font.render(f"Score:  {score_val}", False, "White")                # rendern von Schriften -> ("Was möchte ich rendern", Antialiasing(Kantensmoothnes), Color)
+score_count = score_val
+level_val = 1
+level = test_font.render(f"Level:  {level_val}", False, "White")
 
 #Player
 playerImg = pygame.image.load("graphics/raumschiff.png").convert_alpha()
 playerX = 370
 playerY = 480
+
+#Leben
+leben_val = 8
 
 #Endboss
 endbossImg = pygame.image.load("graphics/monster.png").convert_alpha()
@@ -37,14 +44,14 @@ endbossX = 40
 endbossY = 370
 
 # Bullet init / surface
-kugel = pygame.image.load("graphics/kugel.png")
+kugel = pygame.image.load("graphics/kugel.png").convert_alpha()
 kugelX = 0
 kugelY = 0
 kugelYbewegung = 6
 kugelstatus = False
 
 #Explosion Bullet
-explosion = pygame.image.load("graphics/explosion.png")
+explosion = pygame.image.load("graphics/explosion.png").convert_alpha()
 exploX = 0
 exploY = 0
 
@@ -62,7 +69,56 @@ def kollisionskontrolle(kugelX, kugelY, endbossX, endbossY):
         return True
     else:
         return False
+def lifebar(leben_val):
+    if leben_val == 8:
+        pygame.draw.rect(screen, "Green", [300, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [320, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [340, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [360, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [380, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [400, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [420, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [440, 555, 15, 40], 0)
+    if leben_val == 7:
+        pygame.draw.rect(screen, "Green", [300, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [320, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [340, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [360, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [380, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [400, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [420, 555, 15, 40], 0)
+    if leben_val == 6:
+        pygame.draw.rect(screen, "Green", [300, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [320, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [340, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [360, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [380, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [400, 555, 15, 40], 0)
+    if leben_val == 5:
+        pygame.draw.rect(screen, "Green", [300, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [320, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [340, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [360, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [380, 555, 15, 40], 0)
+    if leben_val == 4:
+        pygame.draw.rect(screen, "Green", [300, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [320, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [340, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [360, 555, 15, 40], 0)
+    if leben_val == 3:
+        pygame.draw.rect(screen, "Green", [300, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [320, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [340, 555, 15, 40], 0)
+    if leben_val == 2:
+        pygame.draw.rect(screen, "Green", [300, 555, 15, 40], 0),
+        pygame.draw.rect(screen, "Green", [320, 555, 15, 40], 0)
+    if leben_val == 1:
+        pygame.draw.rect(screen, "Green", [300, 555, 15, 40], 0)
 
+    if leben_val > 0:
+        return True
+    else:
+        return False
 
 #gameloop
 running = True
@@ -104,7 +160,7 @@ while running:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_SPACE]:                                # auf druck der Leertaste warten
-        if not kugelstatus:                            # wenn kugel nichtmehr sichtbar ist wird der nächste Schuss freigegeben
+        if not kugelstatus:                                 # wenn kugel nichtmehr sichtbar ist wird der nächste Schuss freigegeben
             kugelstatus = True
             kugelX = playerX                                # kugel die Schiffkoordinaten geben
             kugelY = playerY + 50
@@ -123,9 +179,25 @@ while running:
         score_val += 1
         kugelstatus = False
 
+    # Bossgeschwindigkeit erhöhen
+    if score_count + 10 == score_val:
+        score_count = score_val
+        level_val += 1
+        if boss_speed > 0:
+            boss_speed += 0.5
+        elif boss_speed < 0:
+            boss_speed -= 0.5
+
+
     kollisionskontrolle(kugelX, kugelY, endbossX, endbossY)
+
+
+
     score = test_font.render(f"Score:  {score_val}", False, "White")        # Update des scores
     screen.blit(score, (20, 555))
+    level = test_font.render(f"Level:  {level_val}", False, "White")        # Update level
+    screen.blit(level, (600, 555))
+    lifebar(leben_val)
 
     pygame.display.update()                                                 # Bildschirm mit änderungen updaten -> nach jeden Gameloop durchlauf
     clock.tick(fps)                                                         # legt die maximale Framerate auf 60 FPS fest -> while loop wird max 60 mal pro sekunde wiederholt

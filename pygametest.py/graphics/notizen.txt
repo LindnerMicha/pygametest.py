@@ -1,0 +1,13 @@
+leben = [
+    pygame.draw.rect(screen, "Green", [300, 555, 15, 40], 0),                # (worauf wird gezeichnet, farbe, [x punkt, y punkt, länge, höhe], füllen oder umrandet ?)
+    pygame.draw.rect(screen, "Green", [320, 555, 15, 40], 0),
+    pygame.draw.rect(screen, "Green", [340, 555, 15, 40], 0),
+    pygame.draw.rect(screen, "Green", [360, 555, 15, 40], 0),
+    pygame.draw.rect(screen, "Green", [380, 555, 15, 40], 0),
+    pygame.draw.rect(screen, "Green", [400, 555, 15, 40], 0),
+    pygame.draw.rect(screen, "Green", [420, 555, 15, 40], 0),
+    pygame.draw.rect(screen, "Green", [440, 555, 15, 40], 0)
+        ]
+
+
+pygame.draw.rect(leben[0])
