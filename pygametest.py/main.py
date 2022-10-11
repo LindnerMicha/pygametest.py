@@ -1,6 +1,7 @@
 # https://stackoverflow.com/questions/16044229/how-to-get-keyboard-input-in-pygame
 
 import pygame
+
 # !! Pygame initalisieren, muss immer gemacht werden
 pygame.init()
 
@@ -17,8 +18,7 @@ pygame.display.set_icon(icon)
 #Clock                                                                          # Clock für die Framerate festlegen
 clock = pygame.time.Clock()
 fps = 60
-shoot_rate = pygame.time.Clock()
-SPS = 1
+
 
 # Fonts
 test_font = pygame.font.Font("fonts/PixeloidSans.ttf", 30)                      # Eine Font erstellen -> (Font, größe)
@@ -50,10 +50,16 @@ boss_speed = 2
 
 def player(playerImg, playerX, playerY):
     screen.blit(playerImg, (playerX, playerY))                                  # .blit = synonüm für drawing
-def endboss(endbossImg,endbossY, endbossX):
+def endboss(endbossImg, endbossY, endbossX):
     screen.blit(endbossImg, (endbossY, endbossX))
 def kugelfliegt(x, y):
     screen.blit(kugel, (x, y))
+def kollisionskontrolle(kugelX, kugelY, endbossX, endbossY):
+    if :
+        return True
+    else:
+        return False
+
 
 #gameloop
 running = True
@@ -74,7 +80,7 @@ while running:
 
     if endbossY > 700:
         boss_speed *= -1
-    endboss(endbossImg,endbossY, endbossX)                                  # Endboss draw
+    endboss(endbossImg, endbossY, endbossX)                                  # Endboss draw
 
     #Player Movement
     keys = pygame.key.get_pressed()
@@ -99,23 +105,22 @@ while running:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_SPACE]:                                # auf druck der Leertaste warten
-        if kugelstatus == False:                            # wenn kugel nichtmehr sichtbar ist wird der nächste Schuss freigegeben
+        if not kugelstatus:                            # wenn kugel nichtmehr sichtbar ist wird der nächste Schuss freigegeben
             kugelstatus = True
-            print(kugelstatus)
-            kugelX = playerX
+            kugelX = playerX                                # kugel die Schiffkoordinaten geben
             kugelY = playerY + 50
 
 
-    if kugelstatus == True:
+    if kugelstatus:
         kugelY -= kugelYbewegung
         if kugelY <= 0:
             kugelstatus = False
 
-    if kugelstatus == True:
+    if kugelstatus:
         kugelfliegt(kugelX, kugelY)
 
 
-    print(kugelstatus)
+    kollisionskontrolle(kugelX, kugelY, endbossX, endbossY)
     screen.blit(score, (20, 555))
 
     pygame.display.update()                                                 # Bildschirm mit änderungen updaten -> nach jeden Gameloop durchlauf
