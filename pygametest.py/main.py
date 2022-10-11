@@ -7,7 +7,7 @@ pygame.init()
 #Bildfläche definieren
 screen = pygame.display.set_mode((800, 600))                                    # () - einfügen -> darin Bildfläche erstellen
 background = pygame.image.load("graphics/galaxie.jpg").convert_alpha()          # .convert_alpha() -> besserer Performance
-score_tile = pygame.Surface((800,50))
+score_tile = pygame.Surface((800, 50))
 
 #Titel & Icon
 pygame.display.set_caption("Spaceinvador")                                      # Titel des Fensters festlegen
@@ -16,6 +16,9 @@ pygame.display.set_icon(icon)
 
 #Clock                                                                          # Clock für die Framerate festlegen
 clock = pygame.time.Clock()
+fps = 60
+shoot_rate = pygame.time.Clock()
+SPS = 1
 
 # Fonts
 test_font = pygame.font.Font("fonts/PixeloidSans.ttf", 30)                      # Eine Font erstellen -> (Font, größe)
@@ -35,20 +38,22 @@ endbossX = 40
 endbossY = 370
 
 # Bullet init / surface
-bullet_img = pygame.image.load("graphics/kugel.png")
+kugel = pygame.image.load("graphics/kugel.png")
+kugelX = 0
+kugelY = 0
+kugelYbewegung = 6
+kugelstatus = False
 
 boss_speed = 2
 
 
 
-
-
-def player(playerImg,playerX,playerY):
+def player(playerImg, playerX, playerY):
     screen.blit(playerImg, (playerX, playerY))                                  # .blit = synonüm für drawing
 def endboss(endbossImg,endbossY, endbossX):
     screen.blit(endbossImg, (endbossY, endbossX))
-def bullet_fly(bullet_x, bullet_y):
-    screen.blit(bullet_img , (bullet_x, bullet_y))
+def kugelfliegt(x, y):
+    screen.blit(kugel, (x, y))
 
 #gameloop
 running = True
@@ -59,8 +64,8 @@ while running:
             running = False                                                     # fenster schließen
 
     #screen.fill((255,255,255))                                                 # Hintergrundfarbe festlegen
-    screen.blit(background,(0,0))                                               # Background textur draw
-    screen.blit(score_tile, (0,550))                                            # Score Tile draw
+    screen.blit(background, (0, 0))                                               # Background textur draw
+    screen.blit(score_tile, (0, 550))                                            # Score Tile draw
 
     #Movement Endboss
     endbossY += boss_speed
@@ -86,26 +91,32 @@ while running:
         playerX = 730
 
     #Player Shooting   ->   https://www.python-lernen.de/invaders-game-python-gegner-abschiessen.htm / https://stackoverflow.com/questions/16044229/how-to-get-keyboard-input-in-pygame
-    kugelstatus = False  # -> vieleicht hoch in die init
-    kugelX = playerX
-    kugelY = playerY
-    kugelXbewegung = 12
 
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                print("Kugel abfeuern")
-                kugelstatus = True
-                bullet_x = playerX
-                bullet_y = playerY + 50
+
+    # Spielfeld/figuren zeichnen
+
+    player(playerImg, playerX, playerY)
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_SPACE]:                                # auf druck der Leertaste warten
+        if kugelstatus == False:                            # wenn kugel nichtmehr sichtbar ist wird der nächste Schuss freigegeben
+            kugelstatus = True
+            print(kugelstatus)
+            kugelX = playerX
+            kugelY = playerY + 50
+
 
     if kugelstatus == True:
-        bullet_fly(bullet_x, bullet_y)
+        kugelY -= kugelYbewegung
+        if kugelY <= 0:
+            kugelstatus = False
+
+    if kugelstatus == True:
+        kugelfliegt(kugelX, kugelY)
 
 
-    player(playerImg,playerX,playerY)                                       # Player draw
-
+    print(kugelstatus)
     screen.blit(score, (20, 555))
 
     pygame.display.update()                                                 # Bildschirm mit änderungen updaten -> nach jeden Gameloop durchlauf
-    clock.tick(60)                                                          # legt die maximale Framerate auf 60 FPS fest -> while loop wird max 60 mal pro sekunde wiederholt
+    clock.tick(fps)                                                          # legt die maximale Framerate auf 60 FPS fest -> while loop wird max 60 mal pro sekunde wiederholt
