@@ -126,6 +126,7 @@ while running:
 
     print(score_val)
     kollisionskontrolle(kugelX, kugelY, endbossX, endbossY)
+    score = test_font.render(f"Score:  {score_val}", False, "White")
     screen.blit(score, (20, 555))
 
     pygame.display.update()                                                 # Bildschirm mit änderungen updaten -> nach jeden Gameloop durchlauf
