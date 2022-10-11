@@ -52,10 +52,10 @@ def player(playerImg, playerX, playerY):
     screen.blit(playerImg, (playerX, playerY))                                  # .blit = synonüm für drawing
 def endboss(endbossImg, endbossY, endbossX):
     screen.blit(endbossImg, (endbossY, endbossX))
-def kugelfliegt(x, y):
-    screen.blit(kugel, (x, y))
+def kugelfliegt(y, x):
+    screen.blit(kugel, (y, x))
 def kollisionskontrolle(kugelX, kugelY, endbossX, endbossY):
-    if :
+    if (kugelX >= endbossY-30 and kugelX <= endbossY + 30) and (kugelY >= endbossX-30 and kugelY <= endbossX + 30):
         return True
     else:
         return False
@@ -119,7 +119,12 @@ while running:
     if kugelstatus:
         kugelfliegt(kugelX, kugelY)
 
+    # Score
+    if kollisionskontrolle(kugelX, kugelY, endbossX, endbossY) and kugelstatus == True:
+        score_val += 1
+        kugelstatus = False
 
+    print(score_val)
     kollisionskontrolle(kugelX, kugelY, endbossX, endbossY)
     screen.blit(score, (20, 555))
 
