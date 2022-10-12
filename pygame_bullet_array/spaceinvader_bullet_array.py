@@ -144,15 +144,63 @@ def delay(edurations, delay_sec):
         return False
 
 
+
+
+
+
+bullet_surf = pygame.Surface((10, 10), pygame.SRCALPHA)
+pygame.draw.circle(bullet_surf, (64, 64, 62), bullet_surf.get_rect().center, bullet_surf.get_width() // 2)
+bullet_list = []
+
+
+tank_surf = pygame.Surface((800, 600), pygame.SRCALPHA)
+tank_rect = tank_surf.get_rect(top=(playerX, playerY))
+
+
+
+
+
+
+
 #gameloop
 running = True
 while running:
 
+    tank_surf = pygame.Surface((playerX, playerY), pygame.SRCALPHA)
+    keys = pygame.key.get_pressed()
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False                                                     #Fenster schließen
+            running = False
+
+
+
+    if keys[pygame.K_SPACE]:
+        bullet_list.insert(0, tank_rect.top)
 
     screen.blit(background, (0, 0))
+
+
+
+
+    current_time = pygame.time.get_ticks()
+
+    for i, bullet_pos in enumerate(bullet_list):
+        bullet_list[i] = bullet_pos[0] + 5, bullet_pos[1]
+        if bullet_surf.get_rect(center = bullet_pos).left > screen.get_width():
+            del bullet_list[i:]
+            break
+
+    for bullet_pos in bullet_list:
+        screen.blit(bullet_surf, bullet_surf.get_rect(center = bullet_pos))
+
+
+
+
+
+
+
+
 
     #Movement Endboss
     endbossY += boss_speed
@@ -180,7 +228,7 @@ while running:
     #Player Shooting   ->   https://www.python-lernen.de/invaders-game-python-gegner-abschiessen.htm / https://stackoverflow.com/questions/16044229/how-to-get-keyboard-input-in-pygame
     player(playerImg, playerX, playerY)
 
-    keys = pygame.key.get_pressed()
+
     if keys[pygame.K_SPACE]:                                # auf druck der Leertaste warten
         if not kugelstatus:                                 # wenn kugel nichtmehr sichtbar ist wird der nächste Schuss freigegeben
             kugelstatus = True

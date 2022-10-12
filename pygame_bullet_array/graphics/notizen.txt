@@ -1,0 +1,35 @@
+leben = [
+    pygame.draw.rect(screen, "Green", [300, 555, 15, 40], 0),                # (worauf wird gezeichnet, farbe, [x punkt, y punkt, länge, höhe], füllen oder umrandet ?)
+    pygame.draw.rect(screen, "Green", [320, 555, 15, 40], 0),
+    pygame.draw.rect(screen, "Green", [340, 555, 15, 40], 0),
+    pygame.draw.rect(screen, "Green", [360, 555, 15, 40], 0),
+    pygame.draw.rect(screen, "Green", [380, 555, 15, 40], 0),
+    pygame.draw.rect(screen, "Green", [400, 555, 15, 40], 0),
+    pygame.draw.rect(screen, "Green", [420, 555, 15, 40], 0),
+    pygame.draw.rect(screen, "Green", [440, 555, 15, 40], 0)
+        ]
+
+
+pygame.draw.rect(leben[0])
+
+
+    60 fps = 1sec = 60
+
+    if delay(edurations, delay_sec):                         # auf druck der Leertaste warten
+        if not meteorstatus:                                 # wenn kugel nichtmehr sichtbar ist wird der nächste Schuss freigegeben
+            meteorstatus = True
+            meteorX = endbossX                               # kugel die Schiffkoordinaten geben
+            meteorY = endbossY + 50
+
+
+    if meteorstatus:
+        meteorY -= meteorYbewegung
+        if meteorY <= 850:                                   # 50 mehr out of screen
+            meteorstatus = False
+
+    if meteorstatus:
+        meteorfliegt(kugelX, kugelY)
+
+
+
+Meteor in bewegung -> M_y= 170 -> M_x= 672
