@@ -18,6 +18,8 @@ pygame.display.set_icon(icon)
 #Clock                                                                          # Clock für die Framerate festlegen
 clock = pygame.time.Clock()
 fps = 60
+edurations = 0
+delay_sec = 3
 
 # Fonts
 test_font = pygame.font.Font("fonts/PixeloidSans.ttf", 30)                      # Eine Font erstellen -> (Font, größe)
@@ -59,7 +61,7 @@ endbossY = 370
 meteor = pygame.image.load("graphics/meteorit_gross.png").convert_alpha()
 meteorX = 0
 meteorY = 0
-meteorYbewegung = 6
+meteorYbewegung = 2
 meteorstatus = False
 
 
@@ -72,10 +74,15 @@ def endboss(endbossImg, endbossY, endbossX):
     screen.blit(endbossImg, (endbossY, endbossX))
 def kugelfliegt(y, x):
     screen.blit(kugel, (y, x))
-def meteorfliegt(y, x):
-    screen.blit(meteor, (y, x))
-def kollisionskontrolle(kugelX, kugelY, endbossX, endbossY):
+def meteorfliegt(meteorY, meteorX):
+    screen.blit(meteor, (meteorY, meteorX))
+def kollisionskontrolle_boss(kugelX, kugelY, endbossX, endbossY):
     if (kugelX >= endbossY-20 and kugelX <= endbossY + 40) and (kugelY >= endbossX-40 and kugelY <= endbossX + 30):
+        return True
+    else:
+        return False
+def kollisionskontrolle_player(meteorX, meteorY, playerX, playerY):
+    if (meteorX >= playerX-20 and meteorX <= playerX + 40) and (meteorY >= playerY-40 and meteorY <= playerY + 30):
         return True
     else:
         return False
@@ -129,6 +136,14 @@ def lifebar(leben_val):
         return True
     else:
         return False
+def delay(edurations, delay_sec):
+    sec = delay_sec * 60
+    ed_count = edurations
+    if ed_count > sec:
+        return True
+    else:
+        return False
+
 
 #gameloop
 running = True
@@ -136,11 +151,9 @@ while running:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False                                                     # fenster schließen
+            running = False                                                     #Fenster schließen
 
-    #screen.fill((255,255,255))                                                  # Hintergrundfarbe festlegen
-    screen.blit(background, (0, 0))                                              # Background textur draw
-    screen.blit(score_tile, (0, 550))                                            # Score Tile draw
+    screen.blit(background, (0, 0))
 
     #Movement Endboss
     endbossY += boss_speed
@@ -149,7 +162,7 @@ while running:
 
     if endbossY > 700:
         boss_speed *= -1
-    endboss(endbossImg, endbossY, endbossX)                                  # Endboss draw
+    endboss(endbossImg, endbossY, endbossX)
 
     #Player Movement
     keys = pygame.key.get_pressed()
@@ -184,12 +197,6 @@ while running:
     if kugelstatus:
         kugelfliegt(kugelX, kugelY)
 
-    # Score
-    if kollisionskontrolle(kugelX, kugelY, endbossX, endbossY) and kugelstatus == True:
-        score_val += 1
-        screen.blit(explosionImg, (kugelX, kugelY))
-        kugelstatus = False
-
     # Bossgeschwindigkeit erhöhen
     if score_count + 10 == score_val:
         score_count = score_val
@@ -199,16 +206,46 @@ while running:
         elif boss_speed < 0:
             boss_speed -= 0.5
 
+    # Timer
+    if delay(edurations, delay_sec):
+        if not meteorstatus:
+            meteorstatus = True
+            meteorX = endbossY
+            meteorY = endbossX + 50
+            edurations = 0
 
-    kollisionskontrolle(kugelX, kugelY, endbossX, endbossY)
+    if meteorstatus:
+        meteorY += meteorYbewegung
+        if meteorY >= 550:
+            meteorstatus = False
+
+    if meteorstatus:
+        meteorfliegt(meteorX, meteorY)
+
+    # Score
+    kollisionskontrolle_boss(kugelX, kugelY, endbossX, endbossY)
+    kollisionskontrolle_player(meteorX, meteorY, playerX, playerY)
+
+    if kollisionskontrolle_boss(kugelX, kugelY, endbossX, endbossY) and kugelstatus:
+        score_val += 1
+        kugelstatus = False
+        screen.blit(explosionImg, (kugelX, kugelY))
+    if kollisionskontrolle_player(meteorX, meteorY, playerX, playerY) and meteorstatus:
+        leben_val -= 1
+        meteorstatus = False
+        screen.blit(explosionImg, (meteorX, meteorY))
 
 
 
+    screen.blit(score_tile, (0, 550))                                       # Score Tile draw
     score = test_font.render(f"Score:  {score_val}", False, "White")        # Update des scores
     screen.blit(score, (20, 555))
     level = test_font.render(f"Level:  {level_val}", False, "White")        # Update level
     screen.blit(level, (600, 555))
     lifebar(leben_val)
 
+
+
     pygame.display.update()                                                 # Bildschirm mit änderungen updaten -> nach jeden Gameloop durchlauf
+    edurations += 1
     clock.tick(fps)                                                         # legt die maximale Framerate auf 60 FPS fest -> while loop wird max 60 mal pro sekunde wiederholt
